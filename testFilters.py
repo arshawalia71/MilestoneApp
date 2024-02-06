@@ -1,5 +1,5 @@
 import pandas as pd
-# import plotly.express as px
+import plotly.express as px
 import streamlit as st
 # import matplotlib.pyplot as plt
 from pandas.api.types import (
@@ -105,7 +105,7 @@ def filter_dataframe(df: pd.DataFrame) -> pd.DataFrame:
 # It allows users to select columns for filtering and provides different input widgets based
 # on the data type of the column (multiselect, slider, date input, text input, etc.).
     with modification_container:
-        columns = ["Resource: Full Name", "Resource: Manager: Full Name", "Proj_Region","MS:Short_Name", "Status", "End Date"]
+        columns = ["Resource: Full Name", "Assignment: Resource: Resource Manager", "Proj_Region","MS:Short_Name", "Status", "End Date"]
         to_filter_columns = st.multiselect("Filter dataframe on", columns )
         for column in to_filter_columns:
             left, right = st.columns((1, 20)) #2 columns created with width 1 and 20 respectively
