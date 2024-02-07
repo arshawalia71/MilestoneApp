@@ -170,15 +170,17 @@ def filter_dataframe(df: pd.DataFrame) -> pd.DataFrame:
         def filter_data(df, selected_region):
             if selected_region == "All Regions":
                 new_df = df  # No filtering needed for "All regions"
-                st.write("In All regions")
+                # st.write("In All regions")
                 return new_df
             else:
                 new_df = df[df['Proj_Region'] == selected_region]
-                st.write("Not In All regions")
+                # st.write("Not In All regions")
                 return new_df
 
         regions = ["Americas", "APAC", "EMEA", "All Regions"]
         selected_region = st.radio("Select region", regions)
+
+        st.write("##",selected_region)
 
         #here the df to be used for filters will be returned. 
         df_prompts = filter_data(df, selected_region)
