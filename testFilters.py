@@ -170,16 +170,16 @@ def filter_dataframe(df: pd.DataFrame) -> pd.DataFrame:
         def filter_data(df, selected_region):
             if selected_region == "All Regions":
                 new_df = df  # No filtering needed for "All regions"
-                # st.write("In All regions")
+                st.write("In All regions")
                 return new_df
             else:
                 new_df = df[df['Proj_Region'] == selected_region]
-                # st.write("Not In All regions")
+                st.write("Not In All regions")
                 return new_df
 
         regions = ["Americas", "APAC", "EMEA", "All Regions"]
         selected_region = st.radio("Select region", regions)
-        st.write("####",selected_region)
+
         #here the df to be used for filters will be returned. 
         df_prompts = filter_data(df, selected_region)
         display_prompts_for_region(df_prompts)
@@ -435,10 +435,11 @@ def filter_dataframe(df: pd.DataFrame) -> pd.DataFrame:
             # ...
 
             elif is_object_dtype(df[column]):
-                user_text_input = right.text_input(f"Substring or regex in {column}")
+                df[column] = df[column].str.lower()
+                user_text_input = right.text_input(f"Enter substring to be searched {column}")
                 if user_text_input:
-                    # Fill NaN values with an empty string
-                    df[column] = df[column].fillna("").astype(str)
+                    user_text_input = user_text_input.lower()  # Convert user input to lowercase
+                    # Filter the dataframe based on the lowercase column values and user input
                     df = df[df[column].str.contains(user_text_input)]
 
 # ...
@@ -453,7 +454,9 @@ def filter_dataframe(df: pd.DataFrame) -> pd.DataFrame:
             #         df = df[df[column].str.contains(user_text_input)]
 
     total_hours = df['Total Hours'].sum()
+    total_items = len(df)
     st.write(f"Total Hours: {total_hours:.2f}")
+    st.write(f"Total Items: {total_items:.2f}")
     return df
 
 
