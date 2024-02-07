@@ -57,7 +57,7 @@ def display_prompts_for_region(df):
 def top_use_cases(df):
     
     # List of excluded activities
-    excluded_activities = ["PM Activities", "Project Kick Off", "Adhoc Support activities", "Value Realization", "Enablement"]
+    excluded_activities = ["PM Activities", "Project Kick Off","FWR", "Adhoc Support activities", "Value Realization", "Enablement"]
 
     # Filter out rows with excluded activities
     filtered_df = df[~df["MS:Short_Name"].isin(excluded_activities)]
@@ -164,6 +164,14 @@ def filter_dataframe(df: pd.DataFrame) -> pd.DataFrame:
         pd.DataFrame: Filtered dataframe
     """
 
+    columns_to_remove = ["Unnamed: 1", "Assignment: Resource: Resource Manager", "Resource: GDC Resource", 
+                     "Project: Practice: Practice Name", "Project: Region: Region Name", "Budget: DR Number",
+                     "Budget: Budget Name", "Milestone ID", "Milestone Comments", "Planned Hours", 
+                     "Actual Hours Total"]
+
+    df = df.drop(columns=columns_to_remove)
+
+
     # show_prompts = st.checkbox("Prompts") 
 
     if st.checkbox("Show Prompts"):
@@ -185,187 +193,66 @@ def filter_dataframe(df: pd.DataFrame) -> pd.DataFrame:
         #here the df to be used for filters will be returned. 
         df_prompts = filter_data(df, selected_region)
         display_prompts_for_region(df_prompts)
-        # st.write(selected_region)
-        # st.checkbox("Top 5 use cases in the current quarter")
-        # st.checkbox("Top 5 projects where VR was done in the current quarter")
-        # st.checkbox("Top 5 projects that were kicked off in the current quarter")
-        # st.checkbox("Top 5 projects with high burn")
-        # st.checkbox("Top 3 Vertical view")
-        # st.checkbox("Top 3 consultants with high billable effort")
-        # st.checkbox("Top 3 Consultants with high Adhoc support hours")
-
-        # def top_use_cases(df, selected_region):
-        #     filtered_df = filter_data(df, selected_region)
-        #     top_5_use_cases = pd.Series(['Use Case 1', 'Use Case 2', 'Use Case 3', 'Use Case 4', 'Use Case 5'])  # Replace this with your actual calculation
-        #     return top_5_use_cases
-
-        # # Function to calculate the top 5 milestones based on effort spent (excluding specific milestones)
-        # def top_projects_for_VR_completed(df, selected_region):
-        #     filtered_df = filter_data(df, selected_region)
-        #     top_5_milestones = pd.Series(['Milestone 1', 'Milestone 2', 'Milestone 3', 'Milestone 4', 'Milestone 5'])  # Replace this with your actual calculation
-        #     return top_5_milestones
-        
-        # def top_projects_for_Kickoff_completed(df, selected_region):
-        #     filtered_df = filter_data(df, selected_region)
-        #     top_5_milestones = pd.Series(['Milestone 1', 'Milestone 2', 'Milestone 3', 'Milestone 4', 'Milestone 5'])  # Replace this with your actual calculation
-        #     return top_5_milestones
-        
-        # def top_projects_for_Highburn(df, selected_region):
-        #     filtered_df = filter_data(df, selected_region)
-        #     top_5_milestones = pd.Series(['Milestone 1', 'Milestone 2', 'Milestone 3', 'Milestone 4', 'Milestone 5'])  # Replace this with your actual calculation
-        #     return top_5_milestones
-        
-        # def top_verticals(df, selected_region):
-        #     filtered_df = filter_data(df, selected_region)
-        #     top_5_milestones = pd.Series(['Milestone 1', 'Milestone 2', 'Milestone 3', 'Milestone 4', 'Milestone 5'])  # Replace this with your actual calculation
-        #     return top_5_milestones
-        
-        # def top_3_consultants_highBillableEffort(df, selected_region):
-        #     filtered_df = filter_data(df, selected_region)
-        #     top_5_milestones = pd.Series(['Milestone 1', 'Milestone 2', 'Milestone 3', 'Milestone 4', 'Milestone 5'])  # Replace this with your actual calculation
-        #     return top_5_milestones
-        
-        # def top_3_consultants_highAdhocSupportHours(df, selected_region):
-        #     filtered_df = filter_data(df, selected_region)
-        #     top_5_milestones = pd.Series(['Milestone 1', 'Milestone 2', 'Milestone 3', 'Milestone 4', 'Milestone 5'])  # Replace this with your actual calculation
-        #     return top_5_milestones
-
-        # Function to display the prompts based on selected region
-        # def display_prompts(selected_region):
-        #     if selected_region == "All regions":
-        #         for region in df['Proj_Region'].unique():
-        #             st.write(f"### {region}")
-        #             # Display prompts for each region
-        #             display_prompts_for_region(region)
-        #     else:
-        #         st.write(f"### {selected_region}")
-        #         # Display prompts for the selected region
-        #         display_prompts_for_region(selected_region)
-
-        # Function to display the prompts for a specific region
-        # def display_prompts_for_region(region):
-
-
-        #     # Top 5 use cases in the current quarter
-        #     st.write("#### Top 5 use cases in the current quarter")
-        #     top_use_cases = top_use_cases(df, region)
-        #     st.write(top_use_cases)
-            
-        #     # Top 5 projects where VR was done in the current quarter
-        #     st.write("#### Top 5 projects where VR was done in the current quarter")
-        #     top_milestones = top_projects_for_VR_completed(df, region)
-        #     st.write(top_milestones)
-
-        #     #Top 5 projects that were kicked off in the current quarter
-        #     st.write("#### Top 5 projects that were kicked off in the current quarter")
-        #     top_milestones = top_projects_for_Kickoff_completed(df, region)
-        #     st.write(top_milestones)
-
-        #     #Top 5 projects with high burn
-        #     st.write("#### Top 5 projects with high burn")
-        #     top_milestones = top_projects_for_Highburn(df, region)
-        #     st.write(top_milestones)
-
-        #     #Top 3 Vertical view
-        #     st.write("#### Top 3 Vertical view")
-        #     top_milestones = top_verticals(df, region)
-        #     st.write(top_milestones)
-
-        #     #Top 3 consultants with high billable effort
-        #     st.write("#### Top 3 consultants with high billable effort")
-        #     top_milestones = top_3_consultants_highBillableEffort(df, region)
-        #     st.write(top_milestones)
-
-        #     #Top 3 Consultants with high Adhoc support hours
-        #     st.write("#### Top 3 Consultants with high Adhoc support hours")
-        #     top_milestones = top_3_consultants_highAdhocSupportHours(df, region)
-        #     st.write(top_milestones)
-        
-        # display_prompts_for_region(df_prompts)
-
-
-
-
-
+       
 
     show_charts = st.checkbox("Charts")
-    modify = st.checkbox("Add filters")
-
-
-
-            # Function to filter data for the current quarter and a specific region
     
-
-    
-
-    
-
-
-    
-        
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
     if show_charts:
         # Display the charts in one row
         st.write("## Charts")
 
-        st.write("### Total Number of Projects by Region")
-        region_counts = df["Proj_Region"].value_counts()
+        st.write("### Number of Projects per Region")
         
-        fig_bar = px.bar(region_counts, x=region_counts.index, y=region_counts.values, title="Projects by Region")
-        fig_bar.update_yaxes(title_text="Total Number of Projects")  # Set y-axis label
+        # Calculate the number of unique projects per region
+        unique_projects_per_region = df.groupby("Proj_Region")["Project: Project Name"].nunique().reset_index()
+        unique_projects_per_region = unique_projects_per_region.rename(columns={"Project: Project Name": "Number of Unique Projects"})
+
+        # Create the bar chart
+        fig = px.bar(unique_projects_per_region, x="Proj_Region", y="Number of Unique Projects", title="")
+        fig.update_layout(xaxis_title="Region", yaxis_title="Number of Projects")
 
         # Customize hover text in the bar chart
-        fig_bar.update_traces(
+        fig.update_traces(
             hovertemplate="Region: %{x}<br>Total Projects: %{y}"
         )
 
         # Add the total count on the top right of the bar chart
-        total_count = df.shape[0]
-        fig_bar.add_annotation(
+        total_count = df["Project: Project Name"].nunique()
+        fig.add_annotation(
             text=f"Total Projects: {total_count}",
             xref="paper", yref="paper",
             x=0.95, y=0.95,
             showarrow=False
         )
 
-        st.plotly_chart(fig_bar)
+        st.plotly_chart(fig)
         
         # Display the second chart (Total number of projects by milestone) as an interactive pie chart using Plotly
-        st.write("### Total Number of Projects by Milestone")
-        milestone_counts = df["MS:Short_Name"].value_counts()
-        
-        # Modify the labels to include count in brackets
-        milestone_labels = [f"{label} ({count})" for label, count in zip(milestone_counts.index, milestone_counts.values)]
-        
+        st.write("### Milestone Distribution")
+        # Group by milestone and sum the hours spent
+        milestone_hours = df.groupby("MS:Short_Name")["Total Hours"].sum()
+
+        # Modify the labels to include the total hours in brackets
+        milestone_labels = [f"{label} ({hours:.0f} hours)" for label, hours in zip(milestone_hours.index, milestone_hours.values)]
+
         # Define a custom color palette
         custom_palette = px.colors.qualitative.Set1
 
-        fig_pie = px.pie(milestone_counts, names=milestone_labels, values=milestone_counts.values, title="Milestone Distribution", color_discrete_sequence=custom_palette)
+        # Create the pie chart
+        fig_pie = px.pie(milestone_hours, names=milestone_labels, values=milestone_hours.values, title="", color_discrete_sequence=custom_palette)
+
         # Customize hover text in the pie chart
         fig_pie.update_traces(
-            hovertemplate="Milestone= %{label}<br>Milestone percent= %{percent}"
+            hovertemplate="Milestone: %{label}"
         )
 
+        
         # Add the total count on the top right of the pie chart
-        total_count = df.shape[0]
+        total_hours = milestone_hours.sum()
         fig_pie.add_annotation(
-            text=f"Total Projects: {total_count}",
+            text=f"Total Hours: {total_hours:.0f}",
             xref="paper", yref="paper",
             x=0.95, y=0.95,
             showarrow=False
@@ -373,6 +260,8 @@ def filter_dataframe(df: pd.DataFrame) -> pd.DataFrame:
 
         st.plotly_chart(fig_pie)
 
+
+    modify = st.checkbox("Add filters")
     # checking if the filters checkbox is enabled
     if not modify:
         return df
@@ -394,7 +283,7 @@ def filter_dataframe(df: pd.DataFrame) -> pd.DataFrame:
 # It allows users to select columns for filtering and provides different input widgets based
 # on the data type of the column (multiselect, slider, date input, text input, etc.).
     with modification_container:
-        columns = ["Resource: Full Name", "Assignment: Resource: Resource Manager", "Proj_Region","MS:Short_Name", "Status", "End Date"]
+        columns = ["Resource: Full Name",  "Proj_Region","MS:Short_Name","Vertical", "Status", "End Date"]
         to_filter_columns = st.multiselect("Filter dataframe on", columns )
         for column in to_filter_columns:
             left, right = st.columns((1, 20)) #2 columns created with width 1 and 20 respectively
@@ -438,11 +327,16 @@ def filter_dataframe(df: pd.DataFrame) -> pd.DataFrame:
 
             elif is_object_dtype(df[column]):
                 df[column] = df[column].str.lower()
-                user_text_input = right.text_input(f"Enter substring to be searched {column}")
+                user_text_input = right.text_input(f"Enter substring to be searched in {column}")
+                # Replace NA or NaN values with an empty string
+                df[column] = df[column].fillna("").astype(str)
+
+                # Filter the DataFrame only for non-NA or non-NaN values and then check for the substring
+                df_filtered = df[df[column].str.contains(user_text_input)]
                 if user_text_input:
                     user_text_input = user_text_input.lower()  # Convert user input to lowercase
                     # Filter the dataframe based on the lowercase column values and user input
-                    df = df[df[column].str.contains(user_text_input)]
+                    df = df_filtered[df_filtered[column].str.contains(user_text_input)]
 
 # ...
 
@@ -459,6 +353,7 @@ def filter_dataframe(df: pd.DataFrame) -> pd.DataFrame:
     total_items = len(df)
     st.write(f"Total Hours: {total_hours:.2f}")
     st.write(f"Total Items: {total_items:.2f}")
+    
     return df
 
 
