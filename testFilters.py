@@ -53,6 +53,9 @@ def display_prompts_for_region(df):
         st.write("#### Top 3 Consultants with high Adhoc support hours")
         st.write(top_3_consultants_highAdhocSupportHours(df))
 
+    with col2:
+        st.write("#### Top 3 FWRs in the current Quarter")
+        st.write(top_FWRs(df))
 
 def top_use_cases(df):
     
@@ -98,13 +101,27 @@ def top_projects_for_Kickoff_completed(df):
     return top_5_projects_kickoff_completion
 
 def top_projects_for_Highburn(df):
-    # Group by project name and sum the total effort spent
-    project_effort = df.groupby("Project: Project Name")["Total Hours"].sum()
+    filtered_df = df[df["MS:Short_Name"] != "FWR"]
+
+    # Perform groupby operation on the filtered DataFrame
+    project_effort = filtered_df.groupby("Project: Project Name")["Total Hours"].sum()
 
     # Sort the projects based on total effort spent and select the top 5
     top_5_projects_effort = project_effort.nlargest(5)
 
     return top_5_projects_effort
+
+def top_FWRs(df):
+    # Filter the DataFrame for records with milestone name "FWR"
+    filtered_df = df[df["MS:Short_Name"] == "FWR"]
+
+    # Group by FWR and calculate total hours
+    fwr_effort = filtered_df.groupby("Project: Project Name")["Total Hours"].sum()
+
+    # Sort the FWRs based on total effort spent and select the top 3
+    top_3_fwr_effort = fwr_effort.nlargest(3)
+
+    return top_3_fwr_effort
 
 def top_verticals(df):
     # Group by vertical and sum the total effort spent
