@@ -326,17 +326,25 @@ def filter_dataframe(df: pd.DataFrame) -> pd.DataFrame:
             # ...
 
             elif is_object_dtype(df[column]):
+                original_column = df[column].copy()  # Make a copy of the original column
+                
+                # Convert column values to lowercase
                 df[column] = df[column].str.lower()
+                
                 user_text_input = right.text_input(f"Enter substring to be searched in {column}")
                 # Replace NA or NaN values with an empty string
                 df[column] = df[column].fillna("").astype(str)
 
                 # Filter the DataFrame only for non-NA or non-NaN values and then check for the substring
-                df_filtered = df[df[column].str.contains(user_text_input)]
+                df_filtered = df[df[column].str.contains(user_text_input.lower())]
+                
                 if user_text_input:
                     user_text_input = user_text_input.lower()  # Convert user input to lowercase
                     # Filter the dataframe based on the lowercase column values and user input
                     df = df_filtered[df_filtered[column].str.contains(user_text_input)]
+                    
+                    # Restore the original case of the column values for display
+                    df[column] = original_column[df.index]
 
 # ...
 
