@@ -368,4 +368,4 @@ def filter_dataframe(df: pd.DataFrame) -> pd.DataFrame:
 df = pd.read_csv("output_20240205154536.csv")
 
 
-st.dataframe(filter_dataframe(df))
+st.dataframe(filter_dataframe(df),hide_index=True)
