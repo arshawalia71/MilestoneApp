@@ -386,3 +386,32 @@ df = pd.read_csv("output_20240205154536.csv")
 
 
 st.dataframe(filter_dataframe(df),hide_index=True)
+
+
+
+#................................................................................................................................................................
+
+# Create a button to redirect to the hello.py page
+if st.button("Go to Hello Page"):
+    # Use st.experimental_set_query_params to set the URL parameters for navigation
+    st.experimental_set_query_params(nav="hello")
+
+
+# Get the URL parameters
+url_params = st.experimental_get_query_params()
+
+if "nav" in url_params:
+    if url_params["nav"][0] == "hello":
+        # If the "nav" parameter is set to "hello", display the hello.py page
+        import hello
+    else:
+        # If the "nav" parameter is set to any other value, display the main page
+        st.title("Main Page")
+        if st.button("Go to Hello Page"):
+            st.experimental_set_query_params(nav="hello")
+else:
+    # If the "nav" parameter is not set, display the main page
+    st.title("Main Page")
+    if st.button("Go to Hello Page"):
+        st.experimental_set_query_params(nav="hello")
+
