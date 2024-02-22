@@ -188,44 +188,6 @@ def filter_dataframe(df: pd.DataFrame) -> pd.DataFrame:
 
 
 
-
-
-
-
-    
-    # Get the URL parameters
-    url_params = st.experimental_get_query_params()
-
-    if "nav" in url_params:
-        if url_params["nav"][0] == "hello":
-            # If the "nav" parameter is set to "hello", display the hello.py page
-            st.title("Hello Page")
-            st.write("Welcome to the Hello Page!")
-            # Add a back button to navigate back to the main page
-            if st.button("Back to Main Page"):
-                st.experimental_set_query_params(nav="main")
-        else:
-            # If the "nav" parameter is set to any other value, display the main page
-            st.title("Main Page")
-            if st.button("Go to Hello Page"):
-                # Set the "nav" parameter to "hello" when the button is clicked
-                st.experimental_set_query_params(nav="hello")
-    else:
-        # If the "nav" parameter is not set, display the main page
-        st.title("Main Page")
-        if st.button("Go to Hello Page"):
-            # Set the "nav" parameter to "hello" when the button is clicked
-            st.experimental_set_query_params(nav="hello")
-
-
-
-
-
-
-
-
-
-
     columns_to_remove = ["Unnamed: 1", "Assignment: Resource: Resource Manager", "Resource: GDC Resource", 
                      "Project: Practice: Practice Name", "Project: Region: Region Name", "Budget: DR Number",
                      "Budget: Budget Name", "Milestone ID", "Milestone Comments", "Planned Hours", 
