@@ -1,4 +1,8 @@
 import streamlit as st
 
-st.title("Hello Page")
-st.write("Welcome!")
+def hello():
+    st.title("Hello Page")
+    st.write("Welcome to the Hello Page!")
+
+if __name__ == "__main__":
+    hello()
